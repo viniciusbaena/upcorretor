@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="UpCorretor — presença digital e relacionamento com clientes para corretores." />
+    <title>UpCorretor — painel local</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand"><span class="brand-mark brand-mark-up"><span>U</span><i></i></span><span>UpCorretor</span></div>
+        <p class="workspace-label">WORKSPACE DE DEMONSTRAÇÃO</p>
+        <nav class="nav" aria-label="Navegação principal">
+          <button class="nav-item active" data-view="overview">Visão geral</button>
+          <button class="nav-item" data-view="properties">Imóveis</button>
+          <button class="nav-item" data-view="leads">Leads</button>
+          <button class="nav-item" data-view="site">Meu site</button>
+        </nav>
+        <div class="sidebar-footer"><span class="avatar">MC</span><div><strong>Marina Costa</strong><small>Corretora demonstrativa</small></div></div>
+      </aside>
+      <main class="main-content">
+        <header class="topbar"><div><p class="eyebrow">QUARTA-FEIRA, 06 DE AGOSTO</p><h1 id="page-title">Bom dia, Marina</h1></div><button class="button button-primary" id="new-property">+ Novo imóvel</button></header>
+        <section id="view-root" aria-live="polite"></section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

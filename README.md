@@ -5,7 +5,7 @@ gerado a partir da versão real em produção, para fins de demonstração.
 
 ## Estrutura
 
-- `/` — landing page da plataforma (marketing, "SeuCorretor")
+- `/` — landing page da plataforma (marketing, "UpCorretor")
 - `/login.html`, `/cadastro.html` — telas do fluxo de entrada (formulários **não funcionam** aqui, sem backend)
 - `/termos.html`, `/privacidade.html` — páginas legais da plataforma
 - `/demo/` — site de exemplo de um corretor real ("Ana Souza Imóveis"): home, listagem de imóveis,
