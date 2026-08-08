@@ -16,7 +16,7 @@ gerado a partir da versão real em produção, para fins de demonstração.
 
 Como é um snapshot estático, **não há**: cadastro real, login, envio de leads, geração de
 subdomínio, upload de fotos ou cobrança. Para a experiência completa e funcional, acesse:
-**https://217-216-95-162.sslip.io**
+**https://viniciusbaena.github.io/upcorretor/**
 
 ## Como publicar no GitHub Pages
 
