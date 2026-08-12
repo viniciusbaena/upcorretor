@@ -424,7 +424,7 @@
   <p class="ad-caption"><b>UpCorretor</b> — seu site profissional de imóveis, pronto em minutos.</p>
 </div>
 
-<script>
+<script src="../supabase-client.js"></script><script>
 const themes = [
   {id:'azul',    name:'Azul Profissional', bg:'#ffffff', surface:'#f3f6fb', primary:'#1c3f6e', accent:'#f2b134', text:'#1a2433', muted:'#5b6b82', radius:'14px', head:"'Sora',sans-serif", label:"'Inter',sans-serif"},
   {id:'esmeralda',name:'Verde Esmeralda',  bg:'#fbfdfa', surface:'#eef6ef', primary:'#0f5132', accent:'#c9a227', text:'#122019', muted:'#4d6357', radius:'10px', head:"'Fraunces',serif", label:"'Inter',sans-serif"},
@@ -452,7 +452,8 @@ themes.forEach((t, i) => {
   grid.appendChild(btn);
 });
 
-function applyTheme(t, btn){
+let selectedTheme = themes[0]; let selectedLayout = 'classico';
+function applyTheme(t, btn){ selectedTheme = t;
   const p = document.getElementById('preview');
   p.style.setProperty('--bg', t.bg);
   p.style.setProperty('--surface', t.surface);
@@ -469,15 +470,18 @@ function applyTheme(t, btn){
 
 document.querySelectorAll('.layout-btn').forEach(btn => {
   btn.addEventListener('click', () => {
+    selectedLayout = btn.dataset.layout;
     document.getElementById('preview').dataset.layout = btn.dataset.layout;
     document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   });
 });
 
-document.getElementById('saveBtn').addEventListener('click', () => {
+async function loadTheme(){ try { const s=upGetSession(); if(!s?.user?.id) return; const rows=await upFetch(`/rest/v1/sites?owner_id=eq.${encodeURIComponent(s.user.id)}&select=theme_config,theme_id` ,{},s.access_token); const c=rows[0]?.theme_config||{}; const t=themes.find(x=>x.id===c.theme_id||x.id===rows[0]?.theme_id); if(t) applyTheme(t, [...document.querySelectorAll('.swatch')].find(x=>x.dataset.theme===t.id)); if(c.layout){selectedLayout=c.layout; document.getElementById('preview').dataset.layout=c.layout;} } catch(e){} }
+loadTheme();
+document.getElementById('saveBtn').addEventListener('click', async () => {
   const toast = document.getElementById('saveToast');
-  toast.classList.add('show');
+  try { const s=upGetSession(); if(!s?.user?.id) throw new Error('Faça login para salvar.'); const rows=await upFetch(`/rest/v1/sites?owner_id=eq.${encodeURIComponent(s.user.id)}` ,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({theme_id:selectedTheme.id,theme_config:{theme_id:selectedTheme.id,layout:selectedLayout,primary_color:selectedTheme.primary,background_color:selectedTheme.bg,text_color:selectedTheme.text,font_family:selectedTheme.label,spacing:'comfortable'}})},s.access_token); toast.textContent='✓ Site atualizado'; toast.classList.add('show'); } catch(e){ toast.textContent=e.message||'Não foi possível salvar'; toast.classList.add('show'); }
   setTimeout(() => toast.classList.remove('show'), 1800);
 });
 </script>
