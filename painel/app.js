@@ -16,11 +16,11 @@ async function api(path, options = {}) { return upFetch(path, options, ownerToke
 
 async function loadData() {
   if (!session?.user?.id) return;
-  const sites = await api(`/rest/v1/sites?owner_id=eq.${session.user.id}&select=*`);
+  const sites = await api(`/rest/v1/sites?owner_id=eq.${encodeURIComponent(session.user.id)}&select=id,owner_id,slug,name,tagline,theme_id,primary_color,background_color,text_color,font_family,spacing,theme_config,trial_started_at,trial_ends_at,subscription_status`);
   site = sites[0] || null;
   if (!site) return;
-  properties = await api(`/rest/v1/properties?site_id=eq.${site.id}&select=*&order=created_at.desc`);
-  leads = await api(`/rest/v1/leads?site_id=eq.${site.id}&select=*&order=created_at.desc`);
+  properties = await api(`/rest/v1/properties?site_id=eq.${encodeURIComponent(site.id)}&select=id,site_id,title,description,property_type,listing_type,city,state,price,bedrooms,bathrooms,area_m2,cover_image_url,published,created_at,updated_at&order=created_at.desc`);
+  leads = await api(`/rest/v1/leads?site_id=eq.${encodeURIComponent(site.id)}&select=id,site_id,name,email,whatsapp,message,status,created_at&order=created_at.desc`);
 }
 
 function nav(view) { document.querySelectorAll('.nav-item[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view)); if (view === 'overview') renderOverview(); if (view === 'properties') renderProperties(); if (view === 'leads') renderLeads(); if (view === 'site') renderSite(); }
@@ -38,6 +38,7 @@ document.querySelector('#logout')?.addEventListener('click', () => { upSignOut()
 const statusLabels={new:'Novo',contacted:'Em contato',converted:'Convertido',closed:'Encerrado'};const translateStatuses=()=>{document.querySelectorAll('.lead-row .pill').forEach(p=>{const key=p.textContent.trim();if(statusLabels[key])p.textContent=statusLabels[key]});document.querySelectorAll('.lead-row').forEach(row=>{const cell=row.children[2];if(cell&&!cell.querySelector('a')&&/^\+?[\d ()-]{8,}$/.test(cell.textContent.trim())){const phone=cell.textContent.replace(/\D/g,'');cell.innerHTML=`<a href="https://wa.me/${phone}" target="_blank" rel="noopener">${cell.textContent}</a>`}})};setInterval(translateStatuses,300);
 const photoObserver=new MutationObserver(()=>{const input=document.querySelector('#property-form input[name="photos"]');if(!input||input.dataset.ready)return;input.dataset.ready='1';input.setAttribute('accept','image/jpeg,image/png,image/webp');input.setAttribute('multiple','');const preview=document.createElement('div');preview.className='photo-preview';preview.style.cssText='display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px';input.parentElement.append(preview);input.addEventListener('change',()=>{const files=[...input.files];preview.innerHTML='';if(files.length>40){input.value='';preview.innerHTML='<small style="color:#a43d32">Selecione no máximo 40 fotos.</small>';return}files.forEach(file=>{if(file.size>8*1024*1024){preview.innerHTML='<small style="color:#a43d32">Cada foto deve ter no máximo 8 MB.</small>';return}const img=document.createElement('img');img.alt=file.name;img.style.cssText='width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;background:#eef3ef';img.src=URL.createObjectURL(file);preview.append(img)})})});photoObserver.observe(document.body,{childList:true,subtree:true});
 (async () => { if (!session?.user?.id) return renderAuthRequired(); updateShellIdentity(); try { await loadData(); if (!site) { root.innerHTML = '<section class="card empty"><h2>Seu site ainda não foi criado</h2><p>Finalize seu cadastro para começar.</p></section>'; return; } nav('overview'); } catch (err) { root.innerHTML = `<section class="card empty"><h2>Não foi possível carregar o painel</h2><p>${escapeHtml(err.message)}</p></section>`; } })();
+
 
 
 
