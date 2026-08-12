@@ -28,6 +28,11 @@ async function upResendConfirmation(email) {
   return upFetch('/auth/v1/resend', { method: 'POST', body: JSON.stringify({ type: 'signup', email }) });
 }
 
+async function upSendPasswordReset(email) {
+  const redirectTo = 'https://viniciusbaena.github.io/upcorretor/recuperar.html';
+  return upFetch(`/auth/v1/recover?redirect_to=${encodeURIComponent(redirectTo)}`, { method: 'POST', body: JSON.stringify({ email }) });
+}
+
 async function upSignIn(email, password) {
   const auth = await upFetch('/auth/v1/token?grant_type=password', { method: 'POST', body: JSON.stringify({ email, password }) });
   localStorage.setItem(UPCORRETOR_SESSION_KEY, JSON.stringify(auth));
