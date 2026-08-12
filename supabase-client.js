@@ -14,7 +14,8 @@ async function upFetch(path, options = {}, token = '') {
 }
 
 async function upSignUp({ email, password, fullName, creci, whatsapp, siteName, slug }) {
-  const auth = await upFetch('/auth/v1/signup', { method: 'POST', body: JSON.stringify({ email, password, data: { full_name: fullName } }) });
+  const redirectTo = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}auth-callback.html`;
+  const auth = await upFetch(`/auth/v1/signup?redirect_to=${encodeURIComponent(redirectTo)}`, { method: 'POST', body: JSON.stringify({ email, password, data: { full_name: fullName } }) });
   if (!auth.access_token) return { needsEmailConfirmation: true };
   localStorage.setItem(UPCORRETOR_SESSION_KEY, JSON.stringify(auth));
   const profile = { id: auth.user.id, full_name: fullName, creci: creci || null, whatsapp: whatsapp || null };
