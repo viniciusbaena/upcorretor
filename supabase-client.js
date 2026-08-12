@@ -9,8 +9,16 @@ async function upFetch(path, options = {}, token = '') {
   if (token) headers.Authorization = `Bearer ${token}`;
   const response = await fetch(`${UPCORRETOR_SUPABASE_URL}${path}`, { ...options, headers });
   const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(body.error_description || body.msg || body.message || 'Não foi possível concluir a operação.');
+  if (!response.ok) { const error = new Error(body.error_description || body.msg || body.message || 'Não foi possível concluir a operação.'); error.status = response.status; throw error; }
   return body;
+}
+
+async function upProvisionAccount(auth, details = {}) {
+  if (!auth?.access_token || !auth?.user?.id) return;
+  const profile = { id: auth.user.id, full_name: details.fullName || auth.user.user_metadata?.full_name || auth.user.email?.split('@')[0] || 'Corretor', creci: details.creci || null, whatsapp: details.whatsapp || null };
+  await upFetch('/rest/v1/profiles', { method: 'POST', headers: { Prefer: 'resolution=merge-duplicates' }, body: JSON.stringify(profile) }, auth.access_token);
+  const existing = await upFetch(`/rest/v1/sites?owner_id=eq.${encodeURIComponent(auth.user.id)}&select=id`, {}, auth.access_token);
+  if (!existing.length) await upFetch('/rest/v1/sites', { method: 'POST', body: JSON.stringify({ owner_id: auth.user.id, name: details.siteName || `${profile.full_name} Imóveis`, slug: details.slug || `corretor-${auth.user.id.slice(0, 8)}` }) }, auth.access_token);
 }
 
 async function upSignUp({ email, password, fullName, creci, whatsapp, siteName, slug }) {
@@ -18,9 +26,7 @@ async function upSignUp({ email, password, fullName, creci, whatsapp, siteName, 
   const auth = await upFetch(`/auth/v1/signup?redirect_to=${encodeURIComponent(redirectTo)}`, { method: 'POST', body: JSON.stringify({ email, password, data: { full_name: fullName } }) });
   if (!auth.access_token) return { needsEmailConfirmation: true };
   localStorage.setItem(UPCORRETOR_SESSION_KEY, JSON.stringify(auth));
-  const profile = { id: auth.user.id, full_name: fullName, creci: creci || null, whatsapp: whatsapp || null };
-  await upFetch('/rest/v1/profiles', { method: 'POST', headers: { Prefer: 'resolution=merge-duplicates' }, body: JSON.stringify(profile) }, auth.access_token);
-  await upFetch('/rest/v1/sites', { method: 'POST', body: JSON.stringify({ owner_id: auth.user.id, name: siteName, slug }) }, auth.access_token);
+  await upProvisionAccount(auth, { fullName, creci, whatsapp, siteName, slug });
   return { session: auth };
 }
 
@@ -40,7 +46,14 @@ async function upSignIn(email, password) {
 }
 
 function upGetSession() {
-  try { return JSON.parse(localStorage.getItem(UPCORRETOR_SESSION_KEY) || 'null'); } catch { return null; }
+  try { const value = JSON.parse(localStorage.getItem(UPCORRETOR_SESSION_KEY) || 'null'); if (!value) return null; if (value.expires_at && value.expires_at * 1000 <= Date.now() + 30000) { upSignOut(); return null; } return value; } catch { return null; }
 }
 
 function upSignOut() { localStorage.removeItem(UPCORRETOR_SESSION_KEY); }
+
+async function upRefreshSession() {
+  const current = JSON.parse(localStorage.getItem(UPCORRETOR_SESSION_KEY) || 'null');
+  if (!current?.refresh_token) return null;
+  const auth = await upFetch('/auth/v1/token?grant_type=refresh_token', { method: 'POST', body: JSON.stringify({ refresh_token: current.refresh_token }) });
+  localStorage.setItem(UPCORRETOR_SESSION_KEY, JSON.stringify(auth)); return auth;
+}

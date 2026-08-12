@@ -7,20 +7,21 @@
     <meta name="description" content="UpCorretor — presença digital e relacionamento com clientes para corretores." />
     <title>UpCorretor — painel local</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>.logout-button{margin-left:auto;border:1px solid #ffffff44;background:transparent;color:#d9eee0;border-radius:8px;padding:7px 9px;font-size:11px;cursor:pointer}.logout-button:hover{background:#285b45;color:#fff}@media(max-width:900px){.logout-button{font-size:0;padding:8px}.logout-button:after{content:'↪';font-size:16px}}</style>
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar">
         <div class="brand"><span class="brand-mark brand-mark-up"><span>U</span><i></i></span><span>UpCorretor</span></div>
-        <p class="workspace-label">WORKSPACE DE DEMONSTRAÇÃO</p>
+        <p class="workspace-label">SEU ESPAÇO</p>
         <nav class="nav" aria-label="Navegação principal">
-          <button class="nav-item active" data-view="overview">Visão geral</button>
-          <button class="nav-item" data-view="properties">Imóveis</button>
-          <button class="nav-item" data-view="leads">Leads</button>
-          <button class="nav-item" data-view="site">Meu site</button>
-          <a class="nav-item" href="temas.html" style="text-decoration:none">Temas</a>
+          <button class="nav-item active" data-view="overview" aria-label="Visão geral" title="Visão geral">Visão geral</button>
+          <button class="nav-item" data-view="properties" aria-label="Imóveis" title="Imóveis">Imóveis</button>
+          <button class="nav-item" data-view="leads" aria-label="Leads" title="Leads">Leads</button>
+          <button class="nav-item" data-view="site" aria-label="Meu site" title="Meu site">Meu site</button>
+          <a class="nav-item" href="temas.html" aria-label="Temas" title="Temas" style="text-decoration:none">Temas</a>
         </nav>
-        <div class="sidebar-footer"><span class="avatar" id="sidebar-avatar">UC</span><div><strong id="sidebar-name">Sua conta</strong><small id="sidebar-role">Corretor UpCorretor</small></div></div>
+        <div class="sidebar-footer"><span class="avatar" id="sidebar-avatar">UC</span><div><strong id="sidebar-name">Sua conta</strong><small id="sidebar-role">Corretor UpCorretor</small></div><button class="logout-button" id="logout" type="button" aria-label="Sair da conta" title="Sair">Sair</button></div>
       </aside>
       <main class="main-content">
         <header class="topbar"><div><p class="eyebrow" id="today-label">PAINEL DO CORRETOR</p><h1 id="page-title">Seu painel</h1></div><button class="button button-primary" id="new-property">+ Novo imóvel</button></header>
