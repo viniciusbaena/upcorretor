@@ -14,7 +14,7 @@ async function upFetch(path, options = {}, token = '') {
 }
 
 async function upSignUp({ email, password, fullName, creci, whatsapp, siteName, slug }) {
-  const redirectTo = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}auth-callback.html`;
+  const redirectTo = 'https://viniciusbaena.github.io/upcorretor/auth-callback.html';
   const auth = await upFetch(`/auth/v1/signup?redirect_to=${encodeURIComponent(redirectTo)}`, { method: 'POST', body: JSON.stringify({ email, password, data: { full_name: fullName } }) });
   if (!auth.access_token) return { needsEmailConfirmation: true };
   localStorage.setItem(UPCORRETOR_SESSION_KEY, JSON.stringify(auth));
@@ -22,6 +22,10 @@ async function upSignUp({ email, password, fullName, creci, whatsapp, siteName, 
   await upFetch('/rest/v1/profiles', { method: 'POST', headers: { Prefer: 'resolution=merge-duplicates' }, body: JSON.stringify(profile) }, auth.access_token);
   await upFetch('/rest/v1/sites', { method: 'POST', body: JSON.stringify({ owner_id: auth.user.id, name: siteName, slug }) }, auth.access_token);
   return { session: auth };
+}
+
+async function upResendConfirmation(email) {
+  return upFetch('/auth/v1/resend', { method: 'POST', body: JSON.stringify({ type: 'signup', email }) });
 }
 
 async function upSignIn(email, password) {
