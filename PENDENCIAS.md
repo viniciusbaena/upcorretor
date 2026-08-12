@@ -9,3 +9,6 @@
 - Testar novamente cadastro, confirmação de e-mail, login e recuperação de senha.
 
 
+
+- Ativar no Supabase a proteção contra senhas comprometidas em Authentication → Password Security.
+
