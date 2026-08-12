@@ -1,28 +1,27 @@
-# Espelho estático — Plataforma de Sites para Corretores
+# UpCorretor
 
-Este é um **snapshot estático** (HTML/CSS/JS já renderizados, sem backend) do site,
-gerado a partir da versão real em produção, para fins de demonstração.
+Plataforma SaaS para corretores criarem e publicarem sites profissionais de imóveis.
 
-## Estrutura
+## O que já está funcionando
 
-- `/` — landing page da plataforma (marketing, "UpCorretor")
-- `/login.html`, `/cadastro.html` — telas do fluxo de entrada (formulários **não funcionam** aqui, sem backend)
-- `/termos.html`, `/privacidade.html` — páginas legais da plataforma
-- `/demo/` — site de exemplo de um corretor real ("Ana Souza Imóveis"): home, listagem de imóveis,
-  páginas individuais de imóvel, sobre, contato
-- `/prototipo/` — protótipo navegável standalone (4 telas, tudo em um único HTML)
+- Cadastro, confirmação de e-mail, login, logout e recuperação de acesso.
+- Painel protegido por autenticação.
+- Cadastro de imóveis com até 40 fotos e opção de publicação/rascunho.
+- Temas e personalizações persistidos no Supabase.
+- Site público por slug: `site.html?slug=seu-site`.
+- Leads públicos com proteção básica anti-spam e gestão no painel.
+- Storage privado com URLs assinadas para mídia publicada.
+- Trial de 15 dias e estrutura de assinatura de R$ 69,99/mês.
 
-## Limitações desta versão
+## Endereços
 
-Como é um snapshot estático, **não há**: cadastro real, login, envio de leads, geração de
-subdomínio, upload de fotos ou cobrança. Para a experiência completa e funcional, acesse:
-**https://viniciusbaena.github.io/upcorretor/**
+- Produção: https://viniciusbaena.github.io/upcorretor/
+- Site de corretor: https://viniciusbaena.github.io/upcorretor/site.html?slug=seu-site
 
-## Como publicar no GitHub Pages
+## Pendências externas
 
-1. Crie um repositório (ex.: `sitedocorretor`)
-2. Faça upload de todo o conteúdo desta pasta para a raiz do repositório
-3. Em **Settings → Pages**, defina Source = branch `main`, pasta `/ (root)`
-4. Em alguns minutos o site fica em `https://SEU_USUARIO.github.io/sitedocorretor/`
+Ainda falta escolher gateway de pagamento, domínio oficial e provedor SMTP. Esses itens estão documentados em `PENDENCIAS.md`.
 
-Gerado em 16/07/2026 a partir da versão em produção do VPS.
+## Publicação
+
+O projeto é publicado pelo branch `main` deste repositório no GitHub Pages. O frontend usa uma chave publishable do Supabase; chaves de serviço nunca devem ser colocadas neste repositório.
