@@ -6,7 +6,7 @@ let site = null;
 let properties = [];
 let leads = [];
 const accountName = session?.user?.user_metadata?.full_name || session?.user?.email?.split('@')[0] || 'Corretor';
-function updateShellIdentity() { const first = accountName.trim().split(/\s+/)[0] || 'Corretor'; const initials = accountName.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase(); const n=document.querySelector('#sidebar-name'), a=document.querySelector('#sidebar-avatar'), d=document.querySelector('#today-label'); if(n)n.textContent=accountName; if(a)a.textContent=initials; if(d)d.textContent=new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long'}).format(new Date()).toUpperCase(); title.textContent=`Bom dia, ${first}`; }
+function updateShellIdentity() { const first = accountName.trim().split(/\s+/)[0] || 'Corretor'; const initials = accountName.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase(); const n=document.querySelector('#sidebar-name'), a=document.querySelector('#sidebar-avatar'), d=document.querySelector('#today-label'); if(n)n.textContent=accountName; if(a)a.textContent=initials; if(d)d.textContent=new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long'}).format(new Date()).toUpperCase(); const hour=new Date().getHours(); const greeting=hour<12?'Bom dia':hour<18?'Boa tarde':'Boa noite'; title.textContent=`${greeting}, ${first}`; }
 
 const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = value => value == null || value === '' ? 'A consultar' : Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
