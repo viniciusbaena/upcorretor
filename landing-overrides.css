@@ -6,3 +6,5 @@
 .brand-mark-up{background-color:transparent!important;background-image:url('assets/upcorretor-mark.svg?v=3')!important;background-position:center!important;background-size:contain!important;background-repeat:no-repeat!important;border-radius:0!important;width:42px!important;height:42px!important;color:transparent!important;display:inline-block!important}
 .brand-mark-up span,.brand-mark-up i{display:none!important}
 .brand-logo{height:42px;width:auto;display:block}
+.landing-nav .brand{font-size:0!important;width:190px;height:44px;display:block;background:url('assets/upcorretor-logo.svg?v=4') left center/contain no-repeat}
+.landing-nav .brand>*{display:none!important}
