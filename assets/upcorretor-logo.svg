@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 128" role="img" aria-labelledby="title desc">
+  <title id="title">UpCorretor</title>
+  <desc id="desc">Marca UpCorretor com uma casa sobre a letra U</desc>
+  <g transform="translate(8 8)">
+    <path fill="#087f5b" d="M18 47h29v28c0 16 9 24 24 24s24-8 24-24V47h29v30c0 33-20 48-53 48S18 110 18 77V47Z"/>
+    <path fill="#ffb51b" d="m16 51 55-39 55 39v18L71 34 16 69V51Z"/>
+    <path fill="#ffb51b" d="M58 48h12v12H58zM74 48h12v12H74zM58 64h12v12H58zM74 64h12v12H74z"/>
+  </g>
+  <text x="142" y="82" fill="#073b32" font-family="Inter,Arial,sans-serif" font-size="58" font-weight="800" letter-spacing="-2">Up<tspan fill="#202a2e">Corretor</tspan></text>
+</svg>
