@@ -7,6 +7,7 @@
     <meta name="description" content="UpCorretor: o site profissional do corretor de imóveis, com catálogo, leads e presença digital em um só lugar." />
     <title>UpCorretor — seu site profissional de imóveis</title>
     <link rel="stylesheet" href="landing.css" />
+    <link rel="stylesheet" href="landing-overrides.css" />
   </head>
   <body>
     <header class="landing-nav"><a class="brand" href="index.html"><span class="brand-mark brand-mark-up"><span>U</span><i></i></span> UpCorretor</a><nav><a href="#recursos">Recursos</a><a href="#exemplos">Exemplos</a><a href="#como-funciona">Como funciona</a><a href="login.html">Entrar</a><a class="nav-cta" href="cadastro.html">Experimentar grátis</a></nav></header>
@@ -21,6 +22,6 @@
       <section id="comece" class="cta-section"><div><p class="eyebrow">COMECE AGORA</p><h2>15 dias grátis para experimentar.</h2><p>Depois do período de teste, o plano completo custa <strong>R$ 69,99 por mês</strong>, sem contrato de fidelidade.</p></div><a class="button button-light" href="cadastro.html">Criar meu site grátis</a></section>
     </main>
     <footer><span>© 2026 UpCorretor</span><span>Seu site profissional para vender imóveis melhor</span><span><a href="termos.html">Termos de uso</a> · <a href="privacidade.html">Privacidade</a> · <a href="login.html">Entrar</a></span></footer>
-  <script>document.querySelector('.text-link')?.setAttribute('href','#como-funciona');</script></body>
+  <script>document.querySelector('.text-link')?.setAttribute('href','#como-funciona');const heroTitle=document.querySelector('.hero h1');if(heroTitle)heroTitle.textContent='Crie seu próprio site em 15 minutos.';const heroLead=document.querySelector('.hero-lead');if(heroLead)heroLead.textContent='Escolha um tema, cadastre seus imóveis e publique. Você não precisa saber programar: o UpCorretor transforma seu catálogo em uma presença profissional, bonita e personalizável.';const heroCta=document.querySelector('.hero-actions .button-primary');if(heroCta)heroCta.textContent='Criar meu site grátis';const fine=document.querySelector('.fine-print');if(fine)fine.textContent='15 dias grátis · sem cartão de crédito · pronto para compartilhar';</script></body>
 </html>
 
