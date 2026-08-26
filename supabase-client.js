@@ -1,3 +1,11 @@
+// Identidade consistente também nas rotas legadas/compactadas sem link explícito.
+if (typeof document !== 'undefined' && !document.querySelector('link[rel="icon"]')) {
+  const icon = document.createElement('link');
+  icon.rel = 'icon';
+  icon.type = 'image/svg+xml';
+  icon.href = location.pathname.includes('/painel/') || location.pathname.includes('/site/') || location.pathname.includes('/temas/') ? '../favicon.svg' : 'favicon.svg';
+  document.head.appendChild(icon);
+}
 // Cliente mínimo do UpCorretor usando a API REST do Supabase.
 // A chave publishable/anon é própria para frontend quando o RLS está ativo.
 const UPCORRETOR_SUPABASE_URL = 'https://tknygjjxcbnvlkwgidfm.supabase.co';
