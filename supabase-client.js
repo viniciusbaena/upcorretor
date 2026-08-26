@@ -45,8 +45,17 @@ async function upSignIn(email, password) {
   return auth;
 }
 
+let upRefreshInFlight = null;
 function upGetSession() {
-  try { const value = JSON.parse(localStorage.getItem(UPCORRETOR_SESSION_KEY) || 'null'); if (!value) return null; if (value.expires_at && value.expires_at * 1000 <= Date.now() + 30000) { upSignOut(); return null; } return value; } catch { return null; }
+  try {
+    const value = JSON.parse(localStorage.getItem(UPCORRETOR_SESSION_KEY) || 'null');
+    if (!value) return null;
+    if (value.expires_at && value.expires_at * 1000 <= Date.now()) { upSignOut(); return null; }
+    if (value.expires_at && value.expires_at * 1000 <= Date.now() + 120000 && value.refresh_token && !upRefreshInFlight) {
+      upRefreshInFlight = upRefreshSession().catch(() => { upSignOut(); return null; }).finally(() => { upRefreshInFlight = null; });
+    }
+    return value;
+  } catch { return null; }
 }
 
 function upSignOut() { localStorage.removeItem(UPCORRETOR_SESSION_KEY); }
